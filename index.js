@@ -1,6 +1,27 @@
 const pgAnterior = document.getElementById('pgAnterior');
 const pgSiguiente = document.getElementById('pgSiguiente');
+const pgUpComing = document.getElementById('upComing');
+const pgTopRated = document.getElementById('topRated');
+const pgPopular = document.getElementById('popular');
+
+let tipo = 'popular'
 let pagina = 1;
+
+pgUpComing.addEventListener('click', () => {
+    tipo = 'upcoming';
+    pagina = 1;
+    cargarPeliculas();
+});
+pgTopRated.addEventListener('click', () => {
+    tipo = 'top_rated';
+    pagina = 1;
+    cargarPeliculas();
+});
+pgPopular.addEventListener('click', () => {
+    tipo = 'popular';
+    pagina = 1;
+    cargarPeliculas();
+});
 
 pgAnterior.addEventListener('click', () => {
     if (pagina > 1) {
@@ -19,18 +40,23 @@ pgSiguiente.addEventListener('click', () => {
 const cargarPeliculas = async () => {
     try {
 
-        const respuesta = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=dd058bc5c64d32c16ae5cb314ede12b5&language=es-ES&page=${pagina}`);	
+        const mainUrl ='https://api.themoviedb.org/3/movie/'
+        const apiKey = '?api_key=dd058bc5c64d32c16ae5cb314ede12b5'
+        
+        const url = `${mainUrl}${tipo}${apiKey}&language=es-ES&page=${pagina}`;
+        
+        const respuesta = await fetch(url);	
 
         if (respuesta.status === 200) {
             const datos = await respuesta.json();
-            console.log(datos);
+
             let peliculas = '';
 
             datos.results.forEach(pelicula => {
                 peliculas += `
                     <div class="pelicula">
                         <div class="description">
-                            <h5>${pelicula.title}</h5>
+                            <h6>${pelicula.title}</h6>
                             <p>${pelicula.overview}</p>
                         </div>
                         <img src="https://image.tmdb.org/t/p/w500/${pelicula.poster_path}">
