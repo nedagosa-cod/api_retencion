@@ -14,6 +14,13 @@ body{
     --mcolor-dark : #8F2D56;
     
 }
+.categorias{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    width: 80%;
+}
 .cantainer {
     display: flex;
     justify-content: center;
@@ -77,13 +84,6 @@ body{
 	border-radius: 10px;
 	box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: var(--third-color);
-}
-
-.categorias{
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    width: 80%;
 }
 button {
     position: relative;
@@ -191,6 +191,7 @@ button {
     font-size: 17px;
     transition: all 1s;
     width: 400px;
+    min-width: 200px;
    }
    
    .input:focus {
