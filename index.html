@@ -15,10 +15,14 @@
     <header>
         <img src="./src/logo.jpg" alt="logo">
     </header>
+
+    <!-- Input busqueda -->
     <form class="container__input" id="searchForm">
         <input type="text" id="search" class="input" placeholder="Buscar Pelicula">
         <i class="fa-solid fa-magnifying-glass iconsearch"></i>
     </form>
+    
+    <!-- Categorias -->
     <nav class="categorias">
         <button id="upComing">
             <span class="shadow"></span>
@@ -39,15 +43,16 @@
             </span>
         </button>
     </nav>
+
+    <!-- Overlay -->
     <div id="myNav" class="overlay">
-        <!-- Button to close the overlay navigation -->
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <!-- Overlay content -->
-        <div class="overlay-content">
+        <div class="overlay-content" id="overlay-content"></div>
     </div>
-      
-      </div>
+    <!-- Contenedor de peliculas -->
     <main class="cantainer" id="container"></main>
+
+    <!-- Botones de pasar pagina -->
     <div class="paginacion">
         <button id="pgAnterior">
             <span class="shadow"></span>
@@ -65,6 +70,7 @@
         </span>
         </button>
     </div>
+
     <script src="./index.js"></script>
 </body>
 </html>

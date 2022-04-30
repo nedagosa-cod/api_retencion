@@ -6,6 +6,7 @@ const pgPopular = document.getElementById('popular');
 const search = document.getElementById('search');
 const searchForm = document.getElementById('searchForm');
 const boxPagina = document.getElementById('numPagina');
+const overlayContent = document.getElementById('overlay-content');
 
 let pagina = 1;
 let tipo = 'popular';
@@ -15,7 +16,7 @@ const apiKey = '?api_key=dd058bc5c64d32c16ae5cb314ede12b5'
 const esEs = `&language=es-ES&page=`
 const imgUrl = 'https://image.tmdb.org/t/p/w500/'
 const urlSearch = `${mainUrl}search/movie${apiKey}&query=`
-// let url = `${mainUrl}movie/${tipo}${apiKey}${esEs}`;
+const youtubeUrl = 'https://www.youtube.com/watch?v='
 
 const changePage = () => {
     boxPagina.value = pagina;
@@ -72,11 +73,52 @@ searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
     getMovies();
 });
-function openNav() {
-    console.log('entro');
-    document.getElementById("myNav").style.width = "100%";
+
+
+
+
+const openNav = async (movie) => {
+    try {
+        const promesa = await fetch(`${mainUrl}movie/${movie}/videos${apiKey}`);
+        switch (promesa.status) {
+            case 200:
+                if (promesa) {
+                    const respuesta = await promesa.json();
+                    document.getElementById("myNav").style.width = "100%";
+                    console.log(respuesta)
+                    if (respuesta.results.length > 0) {
+                        var trilers = [];
+                        respuesta.results.forEach(video => {
+                            let {name, key, site} = video;
+                            if (site == 'YouTube') {
+                                trilers.push(
+                                    `
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/${key}" title="${name}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    `
+                                )
+                            }
+                        })
+                        overlayContent.innerHTML = trilers.join('');
+                    } else {
+                        overlayContent.innerHTML = `<h3>No hay trailers</h3>`;
+                    }
+                    break;
+                }
+            case 404:
+                console.log('No se encontró la película');
+                break;
+            default:
+                break;
+        }
+    } catch (error) {
+        console.log(error)
+    }
+
   }
   
+
+
+
 function closeNav() {
     document.getElementById("myNav").style.width = "0%";
   }
@@ -98,7 +140,7 @@ const cargarPeliculas = async (apiUrl) => {
                 if (pelicula.poster_path !== null) {
                     const date = new Date(pelicula.release_date);
                     peliculas += `
-                    <div class="boxPelicula" onclick="openNav()">
+                    <div class="boxPelicula" onclick="openNav(${pelicula.id})">
                         <div class="pelicula" >
                             <div class="description" id="movie${pelicula.id}">
                                 <h6>${pelicula.title}</h6>
@@ -108,7 +150,7 @@ const cargarPeliculas = async (apiUrl) => {
                         </div>
                         <div class="dateAverage">
                             <span><p class="fa-solid fa-calendar">   ${date.getFullYear()}</p></span>
-                            <span class=""><p class="fa-solid fa-star ${getColor(pelicula.vote_average)}">   ${pelicula.vote_average}</p></span> 
+                            <span><p class="fa-solid fa-star ${getColor(pelicula.vote_average)}">   ${pelicula.vote_average}</p></span> 
                         </div>
                     </div>
                     `
