@@ -13,7 +13,7 @@ let tipo = 'popular';
 
 const mainUrl ='https://api.themoviedb.org/3/'
 const apiKey = '?api_key=dd058bc5c64d32c16ae5cb314ede12b5'
-const esEs = `&language=es-ES&page=`
+const esEs = `&language=es-MX&page=`
 const imgUrl = 'https://image.tmdb.org/t/p/w500/'
 const urlSearch = `${mainUrl}search/movie${apiKey}&query=`
 const youtubeUrl = 'https://www.youtube.com/watch?v='
@@ -49,20 +49,16 @@ pgPopular.addEventListener('click', () => {
 pgAnterior.addEventListener('click', () => {
     if (pagina > 1) {
         pagina += -1;
-        boxPagina.innerHTML = pagina;
         cargarPeliculas(`${mainUrl}movie/${tipo + apiKey + esEs + pagina}`);
     }
+    boxPagina.innerHTML = pagina;
 });
-
-
-
 pgSiguiente.addEventListener('click', () => {
     if (pagina < 1000) {
         pagina += 1;
-        boxPagina.innerHTML = pagina; 
         cargarPeliculas(`${mainUrl}movie/${tipo + apiKey + esEs + pagina}`);
-        
     }
+    boxPagina.innerHTML = pagina; 
 })
 const getMovies = () => {
     const valBuscado = search.value;
@@ -79,7 +75,7 @@ searchForm.addEventListener('submit', (e) => {
 
 const openNav = async (movie) => {
     try {
-        const promesa = await fetch(`${mainUrl}movie/${movie}/videos${apiKey}`);
+        const promesa = await fetch(`${mainUrl}movie/${movie}/videos${apiKey}&language=es-ES`);
         switch (promesa.status) {
             case 200:
                 if (promesa) {
@@ -93,14 +89,14 @@ const openNav = async (movie) => {
                             if (site == 'YouTube') {
                                 trilers.push(
                                     `
-                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/${key}" title="${name}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    <iframe class="iframe" width="560" height="315" src="https://www.youtube.com/embed/${key}" title="${name}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     `
                                 )
                             }
                         })
-                        overlayContent.innerHTML = trilers.join('');
+                        overlayContent.innerHTML = `<h1 style="color:White">Trilers</h1><div class="overflowX">${trilers.join('')}</div>`;
                     } else {
-                        overlayContent.innerHTML = `<h3>No hay trailers</h3>`;
+                        overlayContent.innerHTML = `<h3 style="color:White; font-size:6rem">No hay trailers</h3>`;
                     }
                     break;
                 }
@@ -121,6 +117,7 @@ const openNav = async (movie) => {
 
 function closeNav() {
     document.getElementById("myNav").style.width = "0%";
+    overlayContent.innerHTML = ``;
   }
 
 
