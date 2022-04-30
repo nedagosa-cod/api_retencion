@@ -53,6 +53,8 @@ pgAnterior.addEventListener('click', () => {
     }
 });
 
+
+
 pgSiguiente.addEventListener('click', () => {
     if (pagina < 1000) {
         pagina += 1;
@@ -70,24 +72,35 @@ searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
     getMovies();
 });
+function openNav() {
+    console.log('entro');
+    document.getElementById("myNav").style.width = "100%";
+  }
+  
+function closeNav() {
+    document.getElementById("myNav").style.width = "0%";
+  }
+
+
+
 
 const cargarPeliculas = async (apiUrl) => {
     try {
         const respuesta = await fetch(apiUrl);	
         
+        
         if (respuesta.status === 200) {
+
             const datos = await respuesta.json();
             let peliculas = '';
-
             datos.results.forEach(pelicula => {
                 
                 if (pelicula.poster_path !== null) {
                     const date = new Date(pelicula.release_date);
-                    console.log(getColor(pelicula.vote_average))
                     peliculas += `
-                    <div class="boxPelicula">
-                        <div class="pelicula">
-                            <div class="description">
+                    <div class="boxPelicula" onclick="openNav()">
+                        <div class="pelicula" >
+                            <div class="description" id="movie${pelicula.id}">
                                 <h6>${pelicula.title}</h6>
                                 <p>${pelicula.overview}</p>
                             </div>
@@ -98,11 +111,12 @@ const cargarPeliculas = async (apiUrl) => {
                             <span class=""><p class="fa-solid fa-star ${getColor(pelicula.vote_average)}">   ${pelicula.vote_average}</p></span> 
                         </div>
                     </div>
-                `;
+                    `
+                document.getElementById('container').innerHTML = peliculas;
                 }
+                
             });
-
-            document.getElementById('container').innerHTML = peliculas;
+            
             
         } else if (respuesta.status === 404) {
             console.log('No se encontró la película');
@@ -116,5 +130,6 @@ const cargarPeliculas = async (apiUrl) => {
         console.log(error)
     }
 };
+
 
 cargarPeliculas(`${mainUrl}movie/popular${apiKey + esEs + pagina}`);
