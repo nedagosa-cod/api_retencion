@@ -21,7 +21,6 @@ header{
 }
 .categorias{
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     margin: 0 auto;
     width: 80%;
@@ -33,10 +32,13 @@ header{
     flex-wrap: wrap;
     width: 80%;
 }
+.boxPelicula{
+    width: 200px;
+    margin: 10px auto;
+}
 .pelicula {
     width: 200px;
     height: 290px;
-    margin: 10px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 0px 10px #000;
@@ -51,6 +53,36 @@ header{
     height: 100%;
     object-fit: cover;
 }
+.dateAverage{
+    display: flex;
+    justify-content: space-around;
+    width: 200px;
+}
+.dateAverage span{
+    display: flex;
+    justify-content: space-around;
+    color: white;
+    font-weight: 400;
+    text-align: center;
+    width: 70px;
+    height: 26px;
+    margin: 5px;
+    background: var(--main-color);
+    text-align: center;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    box-shadow: inset 0px 0px 10px -9px #000000;
+    box-shadow: 0px 5px 13px -7px #000000
+}
+.dateAverage span p{
+    width: 100%;
+    font-size: 0.8rem;
+    margin: auto 0;
+}
+
 .paginacion{
     display: flex;
     justify-content: center;

@@ -73,13 +73,20 @@ const cargarPeliculas = async (apiUrl) => {
             datos.results.forEach(pelicula => {
                 
                 if (pelicula.poster_path !== null) {
+                    const date = new Date(pelicula.release_date);
                     peliculas += `
-                    <div class="pelicula">
-                        <div class="description">
-                            <h6>${pelicula.title}</h6>
-                            <p>${pelicula.overview}</p>
+                    <div class="boxPelicula">
+                        <div class="pelicula">
+                            <div class="description">
+                                <h6>${pelicula.title}</h6>
+                                <p>${pelicula.overview}</p>
+                            </div>
+                            <img src="${imgUrl}${pelicula.poster_path}" alt="${pelicula.title}">
                         </div>
-                        <img src="${imgUrl}${pelicula.poster_path}" alt="${pelicula.title}">
+                        <div class="dateAverage">
+                            <span><p class="fa-solid fa-calendar"> ${date.getFullYear()}</p></span>
+                            <span><p class="fa-solid fa-star"> ${pelicula.vote_average}</p></span> 
+                        </div>
                     </div>
                 `;
                 }
