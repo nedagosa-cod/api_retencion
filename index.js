@@ -20,6 +20,15 @@ const urlSearch = `${mainUrl}search/movie${apiKey}&query=`
 const changePage = () => {
     boxPagina.value = pagina;
 }
+const getColor = (average) => {
+    if (average >= 8) {
+        return 'color-green';
+    } else if (average >= 6 && average < 8) {
+        return 'color-orange';
+    } else {
+        return 'color-red';
+    }
+}
 pgUpComing.addEventListener('click', () => {
     tipo = 'upcoming';
     pagina = 1;
@@ -74,6 +83,7 @@ const cargarPeliculas = async (apiUrl) => {
                 
                 if (pelicula.poster_path !== null) {
                     const date = new Date(pelicula.release_date);
+                    console.log(getColor(pelicula.vote_average))
                     peliculas += `
                     <div class="boxPelicula">
                         <div class="pelicula">
@@ -84,8 +94,8 @@ const cargarPeliculas = async (apiUrl) => {
                             <img src="${imgUrl}${pelicula.poster_path}" alt="${pelicula.title}">
                         </div>
                         <div class="dateAverage">
-                            <span><p class="fa-solid fa-calendar"> ${date.getFullYear()}</p></span>
-                            <span><p class="fa-solid fa-star"> ${pelicula.vote_average}</p></span> 
+                            <span><p class="fa-solid fa-calendar">   ${date.getFullYear()}</p></span>
+                            <span class=""><p class="fa-solid fa-star ${getColor(pelicula.vote_average)}">   ${pelicula.vote_average}</p></span> 
                         </div>
                     </div>
                 `;

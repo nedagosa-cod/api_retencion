@@ -34,7 +34,7 @@ header{
 }
 .boxPelicula{
     width: 200px;
-    margin: 10px auto;
+    margin: 18px auto;
 }
 .pelicula {
     width: 200px;
@@ -54,21 +54,26 @@ header{
     object-fit: cover;
 }
 .dateAverage{
-    display: flex;
+    display: none;
+    position: absolute;
     justify-content: space-around;
     width: 200px;
+}
+.boxPelicula:hover .dateAverage{
+    display: flex;
 }
 .dateAverage span{
     display: flex;
     justify-content: space-around;
-    color: white;
+    color: black;
     font-weight: 400;
     text-align: center;
     width: 70px;
     height: 26px;
     margin: 5px;
-    background: var(--main-color);
+    background: transparent;
     text-align: center;
+    border: 2px solid var(--main-color);
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -82,7 +87,15 @@ header{
     font-size: 0.8rem;
     margin: auto 0;
 }
-
+.color-green{
+    color: rgb(30, 176, 35);
+}
+.dateAverage span p.color-orange{
+    color: rgb(255, 60, 0);
+}
+.dateAverage span p.color-red{
+    color: rgb(255, 0, 0);
+}
 .paginacion{
     display: flex;
     justify-content: center;
