@@ -11,9 +11,9 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container__input">
-        <input type="text" name="text" class="input" placeholder="Type here...">
-    </div>
+    <form class="container__input" id="searchForm">
+        <input type="text" id="search" class="input" placeholder="Type here...">
+    </form>
     <nav class="categorias">
         <button id="upComing">
             <span class="shadow"></span>
@@ -42,6 +42,9 @@
             <span class="front text"> Pagina Anterior
             </span>
         </button>
+        <div class="numPagina">
+            <span id="numPagina"class="text" value="1">1</span>
+        </div>
         <button id="pgSiguiente">
         <span class="shadow"></span>
         <span class="edge"></span>

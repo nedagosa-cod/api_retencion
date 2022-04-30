@@ -3,69 +3,90 @@ const pgSiguiente = document.getElementById('pgSiguiente');
 const pgUpComing = document.getElementById('upComing');
 const pgTopRated = document.getElementById('topRated');
 const pgPopular = document.getElementById('popular');
+const search = document.getElementById('search');
+const searchForm = document.getElementById('searchForm');
+const boxPagina = document.getElementById('numPagina');
 
-let tipo = 'popular'
 let pagina = 1;
+let tipo = 'popular';
 
+const mainUrl ='https://api.themoviedb.org/3/'
+const apiKey = '?api_key=dd058bc5c64d32c16ae5cb314ede12b5'
+const esEs = `&language=es-ES&page=`
+const imgUrl = 'https://image.tmdb.org/t/p/w500/'
+const urlSearch = `${mainUrl}search/movie${apiKey}&query=`
+// let url = `${mainUrl}movie/${tipo}${apiKey}${esEs}`;
+
+const changePage = () => {
+    boxPagina.value = pagina;
+}
 pgUpComing.addEventListener('click', () => {
     tipo = 'upcoming';
     pagina = 1;
-    cargarPeliculas();
+    cargarPeliculas(`${mainUrl}movie/${tipo + apiKey + esEs + pagina}`);
 });
 pgTopRated.addEventListener('click', () => {
     tipo = 'top_rated';
     pagina = 1;
-    cargarPeliculas();
+    cargarPeliculas(`${mainUrl}movie/${tipo + apiKey + esEs + pagina}`);
 });
 pgPopular.addEventListener('click', () => {
     tipo = 'popular';
     pagina = 1;
-    cargarPeliculas();
+    cargarPeliculas(`${mainUrl}movie/${tipo + apiKey + esEs + pagina}`);
 });
 
 pgAnterior.addEventListener('click', () => {
     if (pagina > 1) {
         pagina += -1;
-        cargarPeliculas();
+        boxPagina.innerHTML = pagina;
+        cargarPeliculas(`${mainUrl}movie/${tipo + apiKey + esEs + pagina}`);
     }
 });
 
 pgSiguiente.addEventListener('click', () => {
     if (pagina < 1000) {
         pagina += 1;
-        cargarPeliculas();
+        boxPagina.innerHTML = pagina; 
+        cargarPeliculas(`${mainUrl}movie/${tipo + apiKey + esEs + pagina}`);
+        
     }
 })
+const getMovies = () => {
+    const valBuscado = search.value;
+    cargarPeliculas(urlSearch + valBuscado + esEs + pagina);
+}
 
-const cargarPeliculas = async () => {
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    getMovies();
+});
+
+const cargarPeliculas = async (apiUrl) => {
     try {
-
-        const mainUrl ='https://api.themoviedb.org/3/movie/'
-        const apiKey = '?api_key=dd058bc5c64d32c16ae5cb314ede12b5'
+        const respuesta = await fetch(apiUrl);	
         
-        const url = `${mainUrl}${tipo}${apiKey}&language=es-ES&page=${pagina}`;
-        
-        const respuesta = await fetch(url);	
-
         if (respuesta.status === 200) {
             const datos = await respuesta.json();
-
             let peliculas = '';
 
             datos.results.forEach(pelicula => {
-                peliculas += `
+                
+                if (pelicula.poster_path !== null) {
+                    peliculas += `
                     <div class="pelicula">
                         <div class="description">
                             <h6>${pelicula.title}</h6>
                             <p>${pelicula.overview}</p>
                         </div>
-                        <img src="https://image.tmdb.org/t/p/w500/${pelicula.poster_path}">
+                        <img src="${imgUrl}${pelicula.poster_path}" alt="${pelicula.title}">
                     </div>
                 `;
+                }
             });
 
             document.getElementById('container').innerHTML = peliculas;
-
+            
         } else if (respuesta.status === 404) {
             console.log('No se encontró la película');
         } else if (respuesta.status === 401) {
@@ -79,4 +100,4 @@ const cargarPeliculas = async () => {
     }
 };
 
-cargarPeliculas();
+cargarPeliculas(`${mainUrl}movie/popular${apiKey + esEs + pagina}`);
